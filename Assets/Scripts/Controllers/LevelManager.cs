@@ -42,15 +42,18 @@ public class LevelManager : MonoBehaviour
 
         //if all enemies are killed/destroyed
         //level success
-       Debug.Log("TotalDestroyedEnemy " + TotalDestroyedEnemy.Value);
+
+        if (Health.Value == 0 || AmmoCount.Value <= 0)
+        {
+            HandleLevelFailure();
+        }
+
         if (TotalSpawnedEnemy.Value == TotalDestroyedEnemy.Value 
             && Health.Value != 0) {
             HandleSuccess();
         }
 
-        if (Health.Value == 0 || AmmoCount.Value <= 0) {
-            HandleLevelFailure();
-        }
+        
     }
 
     void HandleLevelFailure()

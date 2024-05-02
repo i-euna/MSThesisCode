@@ -42,6 +42,8 @@ public class CannonShooter : MonoBehaviour
     [SerializeField]
     private BoolVariable isFiringCannon;
     public Vector3 com;
+
+    public int life = 1;
     private void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
@@ -91,12 +93,15 @@ public class CannonShooter : MonoBehaviour
 
         isFiringCannon.value = true;
         IsFired = true;
+        life = 1;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (IsFired)
+        life--;
+        if (IsFired && life == 0)
         {
+            
             isFiringCannon.value = false;
             Path.Clear();
             PathToFollow.points.Clear();

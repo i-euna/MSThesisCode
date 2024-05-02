@@ -1814,7 +1814,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1283028932}
   - component: {fileID: 1283028931}
-  - component: {fileID: 1283028933}
   m_Layer: 0
   m_Name: TowerHealthManager
   m_TagString: Untagged
@@ -1837,6 +1836,7 @@ MonoBehaviour:
   Health: {fileID: 11400000, guid: 547bb7acf927cec448512e15facb4c3a, type: 2}
   TextComponent: {fileID: 762854692}
   CheckGameOver: {fileID: 11400000, guid: cb232a04aa7781d449a0fbaee93a369b, type: 2}
+  CastleBreachEvent: {fileID: 11400000, guid: bbfafe291b9cedd4381e47259da287f9, type: 2}
 --- !u!4 &1283028932
 Transform:
   m_ObjectHideFlags: 0
@@ -1852,34 +1852,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1283028933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1283028930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2611b2ea4507a124e8427facf9e4ae7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 0e583a045f8f861419da68123bcf7cfc, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1283028931}
-        m_TargetAssemblyTypeName: TowerHealthManager, Assembly-CSharp
-        m_MethodName: DecreaseHealth
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1342341856
 GameObject:
   m_ObjectHideFlags: 0
@@ -2418,6 +2390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerTapInput: {fileID: 11400000, guid: c3493cec3364fc5458a900ce5ce5ca13, type: 2}
   MouseTapPos: {fileID: 11400000, guid: fdfdd6e011b1bfe4493464813377bb60, type: 2}
+  CannonBody: {fileID: 922373703}
 --- !u!1 &1775138135
 GameObject:
   m_ObjectHideFlags: 0

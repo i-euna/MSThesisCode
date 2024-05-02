@@ -188,7 +188,7 @@ MonoBehaviour:
   Type: 1
   EnemyPool: {fileID: 11400000, guid: d11bb5bc207cb704f86cdddc1340d277, type: 2}
   EnemyKilledEvent: {fileID: 11400000, guid: ddb807aef0e9efc4d8f22118bf2bea24, type: 2}
-  CastleBreachedEvent: {fileID: 11400000, guid: 0e583a045f8f861419da68123bcf7cfc, type: 2}
+  CastleBreachedEvent: {fileID: 11400000, guid: bbfafe291b9cedd4381e47259da287f9, type: 2}
   EnemyDeathEvent: {fileID: 11400000, guid: 4e870b9876ea3694b9ef82814ac8a0c6, type: 2}
   LevelTotalKilled: {fileID: 11400000, guid: e8ae5a1ed2067234b97d07fa15e4f07f, type: 2}
   LevelTotalDestroyed: {fileID: 11400000, guid: 9964a0f9907ebd74397fe925dcf053ee, type: 2}

@@ -8,6 +8,9 @@ public class PlayerInput : MonoBehaviour
     [SerializeField]
     private Vector3Variable MouseTapPos;
 
+    [SerializeField]
+    private GameObject CannonBody;
+
     void Update()
     {
         GetPlayerInput();
@@ -23,6 +26,10 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             MouseTapPos.Value = Input.mousePosition;
+            if (CannonBody.transform.rotation.eulerAngles.z < 225)
+            {
+                return;
+            }
             PlayerTapInput.Raise();
         }
     }

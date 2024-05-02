@@ -30,6 +30,7 @@ public class ShootingArc : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("Angle " + transform.rotation.eulerAngles.z);
         if (!isFiringCannon.value) {
             Vector3 mousePosition = Input.mousePosition;
 
@@ -38,9 +39,14 @@ public class ShootingArc : MonoBehaviour
             targetPosition.z = 0;
 
             transform.up = targetPosition - transform.position;
-
-            SetLineRendererPositions(Arc);
+            if (transform.rotation.eulerAngles.z >= 225)
+                SetLineRendererPositions(Arc);
+            else EraseArc(Arc);
         } 
+    }
+
+    private void EraseArc(LineRenderer lineRenderer) {
+        lineRenderer.positionCount = 0;
     }
 
     private void SetLineRendererPositions(LineRenderer lineRenderer)
