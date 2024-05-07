@@ -20,12 +20,15 @@ public class CannonController : MonoBehaviour
     [SerializeField]
     private IntVariable AmmoCount;
 
+    [SerializeField]
+    private GameObject LaunchPoint;
+
     private Vector3 InitialPos;
     private Quaternion InitialRot;
     private Vector3 CannonParentPos;
     private Quaternion CannonParentRot;
 
-    public GameObject CannonParent;
+    public GameObject CannonBody;
 
     [SerializeField]
     private GameEvent CheckGameOverEvent;
@@ -34,8 +37,8 @@ public class CannonController : MonoBehaviour
 
     void Start()
     {
-        CannonParentPos = CannonParent.transform.position;
-        CannonParentRot = CannonParent.transform.rotation;
+        CannonParentPos = CannonBody.transform.position;
+        CannonParentRot = CannonBody.transform.rotation;
 
         FiredCannons = new Stack();
         //Initialize the pool
@@ -50,7 +53,7 @@ public class CannonController : MonoBehaviour
         MaxNoOfCannon.Value,
         MaxNoOfCannon.Value
         );
-        InitialPos = CannonPrefab.transform.position;
+        InitialPos = LaunchPoint.transform.position;
         InitialRot = Quaternion.identity;
         PrepareNextCannon();
     }
@@ -58,7 +61,7 @@ public class CannonController : MonoBehaviour
     public void PrepareNextCannon() {
         if (AmmoCount.Value != 0)
         {
-            GameObject newCannon = Instantiate(CannonPrefab);
+            GameObject newCannon = Instantiate(CannonPrefab);//parent -- , CannonBody.transform
 
             //CannonPool.ObjectPool.Get();
 

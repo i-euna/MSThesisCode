@@ -23,14 +23,14 @@ public class PlayerInput : MonoBehaviour
     /// </summary>
     void GetPlayerInput()
     {
+        Debug.Log("Test " + CannonBody.transform.rotation.eulerAngles.z);
         if (Input.GetMouseButtonUp(0))
         {
             MouseTapPos.Value = Input.mousePosition;
-            if (CannonBody.transform.rotation.eulerAngles.z < 225)
-            {
-                return;
-            }
-            PlayerTapInput.Raise();
+
+            if (CannonBody.transform.rotation.eulerAngles.z >= 280 &&
+                CannonBody.transform.rotation.eulerAngles.z <= 355)
+                PlayerTapInput.Raise();
         }
     }
 }

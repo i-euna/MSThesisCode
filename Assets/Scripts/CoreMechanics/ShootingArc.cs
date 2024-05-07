@@ -22,6 +22,11 @@ public class ShootingArc : MonoBehaviour
     [SerializeField]
     private BoolVariable isFiringCannon;
 
+    private Vector2 calculatedDirection;
+
+    [SerializeField]
+    private GameObject LaunchPoint;
+
     private void Start()
     {
         isFiringCannon.value = false;
@@ -30,7 +35,6 @@ public class ShootingArc : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Angle " + transform.rotation.eulerAngles.z);
         if (!isFiringCannon.value) {
             Vector3 mousePosition = Input.mousePosition;
 
@@ -38,8 +42,10 @@ public class ShootingArc : MonoBehaviour
 
             targetPosition.z = 0;
 
-            transform.up = targetPosition - transform.position;
-            if (transform.rotation.eulerAngles.z >= 225)
+            transform.right = targetPosition - transform.position;
+            //280 to 355
+            if (transform.rotation.eulerAngles.z >= 280 &&
+                transform.rotation.eulerAngles.z <= 355)
                 SetLineRendererPositions(Arc);
             else EraseArc(Arc);
         } 
@@ -65,7 +71,7 @@ public class ShootingArc : MonoBehaviour
     {
         List<Vector2> linePoints = new List<Vector2>(); //Line Renderer Points
         int maxSteps = (int)(MaxDuration / TimeStepInterval);
-        Vector2 direction = transform.up;
+        Vector2 direction = transform.right;
         Vector2 launchPosition = CannonBall.transform.position;
         Velocity = Force / Mass * Time.fixedDeltaTime; // v=at => v=F/m * t
 

@@ -67,11 +67,8 @@ public class CannonShooter : MonoBehaviour
     }
     void Move()
     {
-         //float speed = 5f;
-        // Check if the object has reached the current point
         if (Vector2.Distance(transform.position, Path[currentPointIndex]) <= 0.1f)
         {
-            // Move to the next point on the path
             currentPointIndex = (currentPointIndex + 1) % Path.Count;
         }
 
