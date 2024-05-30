@@ -26,7 +26,7 @@ public class TowerHealthManager : MonoBehaviour
         Health.Value -= GetDamage(enemyType);
         UpdateHealth();
 
-        //if (Health.Value <= 0)
+        if (Health.Value <= 0)
         CheckGameOver.Raise();
     }
 
@@ -36,6 +36,9 @@ public class TowerHealthManager : MonoBehaviour
         switch (type) {
             case EnemyType.FAST_WALKER_2SHOTS:
                 damage = 50;
+                break;
+            case EnemyType.FAST_WALKER_BULLET:
+                damage = 5;
                 break;
             default:
                 damage = 10;

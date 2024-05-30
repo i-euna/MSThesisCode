@@ -23,7 +23,7 @@ public class PlayerInput : MonoBehaviour
     /// </summary>
     void GetPlayerInput()
     {
-        Debug.Log("Test " + CannonBody.transform.rotation.eulerAngles.z);
+        //Debug.Log("Test " + CannonBody.transform.rotation.eulerAngles.z);
         if (Input.GetMouseButtonUp(0))
         {
             MouseTapPos.Value = Input.mousePosition;

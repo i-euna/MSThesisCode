@@ -11,5 +11,6 @@ public enum Levels
     Level3H,
     Level4E,
     Level4M,
-    Level4H
+    Level4H,
+    Notice
 }

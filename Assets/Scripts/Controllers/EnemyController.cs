@@ -22,21 +22,15 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private ObjectPoolVariable HighSpeedWalkerPool;
 
-    [Tooltip("Walker")]
+    //All enemy prefabs -- Start
+    [Tooltip("Enemy Prefabs")]
     [SerializeField]
-    private GameObject WalkerEnemyPrefab;
-
-    [Tooltip("Air")]
-    [SerializeField]
-    private GameObject AirEnemyPrefab;
-
-    [Tooltip("Medium speed walker")]
-    [SerializeField]
-    private GameObject MediumSpeedWalkerPrefab;
-
-    [Tooltip("High speed walker")]
-    [SerializeField]
-    private GameObject HighSpeedWalkerPrefab;
+    private GameObject SlowGroundEnemy,
+                       MediumGroundEnemy,
+                       FastGroundEnemy,
+                       SlowAirEnemy,
+                       MediumAirEnemy,
+                       FastAirEnemy;
 
     [Tooltip("Max no of enemy in the pool")]
     [SerializeField]
@@ -70,10 +64,11 @@ public class EnemyController : MonoBehaviour
     private FloatVariable SlowAirSpeed, MediumAirSpeed, FastAirSpeed;
     private void Start()
     {
-        InitializeEnemyPools();
-        InitialPosWalker = WalkerEnemyPrefab.transform.position;
-        InitialPosAir = AirEnemyPrefab.transform.position;
-        InitAirRotation = AirEnemyPrefab.transform.rotation;
+        //InitializeEnemyPools();
+        InitialPosWalker = SlowGroundEnemy.transform.position;
+        InitialPosAir = SlowAirEnemy.transform.position;
+        InitAirRotation = SlowAirEnemy.transform.rotation;
+
         TotalKilledEnemy.Value = 0;
         TotalSpawnedEnemy.Value = 0;
 
@@ -82,49 +77,49 @@ public class EnemyController : MonoBehaviour
         SpawnWithDelay();
     }
 
-    void InitializeEnemyPools() {
-        //Initialize the pool
-        WalkerPool.ObjectPool = new ObjectPool<GameObject>(() =>
-        { return Instantiate(WalkerEnemyPrefab); },
-        enemy => { enemy.SetActive(true); },
-        enemy => { enemy.SetActive(false); },
-        enemy => { Destroy(enemy); },
-        false,
-        MaxNoOfEnemies.Value,
-        MaxNoOfEnemies.Value
-        );
+    //void InitializeEnemyPools() {
+    //    //Initialize the pool
+    //    WalkerPool.ObjectPool = new ObjectPool<GameObject>(() =>
+    //    { return Instantiate(WalkerEnemyPrefab); },
+    //    enemy => { enemy.SetActive(true); },
+    //    enemy => { enemy.SetActive(false); },
+    //    enemy => { Destroy(enemy); },
+    //    false,
+    //    MaxNoOfEnemies.Value,
+    //    MaxNoOfEnemies.Value
+    //    );
 
-        AirEnemyPool.ObjectPool = new ObjectPool<GameObject>(() =>
-        { return Instantiate(AirEnemyPrefab); },
-        enemy => { enemy.SetActive(true); },
-        enemy => { enemy.SetActive(false); },
-        enemy => { Destroy(enemy); },
-        false,
-        MaxNoOfEnemies.Value,
-        MaxNoOfEnemies.Value
-        );
+    //    AirEnemyPool.ObjectPool = new ObjectPool<GameObject>(() =>
+    //    { return Instantiate(AirEnemyPrefab); },
+    //    enemy => { enemy.SetActive(true); },
+    //    enemy => { enemy.SetActive(false); },
+    //    enemy => { Destroy(enemy); },
+    //    false,
+    //    MaxNoOfEnemies.Value,
+    //    MaxNoOfEnemies.Value
+    //    );
 
-        //Debug.Log("MediumSpeedWalkerPool " + MediumSpeedWalkerPool.ObjectPool);
-        MediumSpeedWalkerPool.ObjectPool = new ObjectPool<GameObject>(() =>
-        { return Instantiate(MediumSpeedWalkerPrefab); },
-        enemy => { enemy.SetActive(true); },
-        enemy => { enemy.SetActive(false); },
-        enemy => { Destroy(enemy); },
-        false,
-        MaxNoOfEnemies.Value,
-        MaxNoOfEnemies.Value
-        );
+    //    //Debug.Log("MediumSpeedWalkerPool " + MediumSpeedWalkerPool.ObjectPool);
+    //    MediumSpeedWalkerPool.ObjectPool = new ObjectPool<GameObject>(() =>
+    //    { return Instantiate(MediumSpeedWalkerPrefab); },
+    //    enemy => { enemy.SetActive(true); },
+    //    enemy => { enemy.SetActive(false); },
+    //    enemy => { Destroy(enemy); },
+    //    false,
+    //    MaxNoOfEnemies.Value,
+    //    MaxNoOfEnemies.Value
+    //    );
 
-        HighSpeedWalkerPool.ObjectPool = new ObjectPool<GameObject>(() =>
-        { return Instantiate(HighSpeedWalkerPrefab); },
-        enemy => { enemy.SetActive(true); },
-        enemy => { enemy.SetActive(false); },
-        enemy => { Destroy(enemy); },
-        false,
-        MaxNoOfEnemies.Value,
-        MaxNoOfEnemies.Value
-        );
-    }
+    //    HighSpeedWalkerPool.ObjectPool = new ObjectPool<GameObject>(() =>
+    //    { return Instantiate(HighSpeedWalkerPrefab); },
+    //    enemy => { enemy.SetActive(true); },
+    //    enemy => { enemy.SetActive(false); },
+    //    enemy => { Destroy(enemy); },
+    //    false,
+    //    MaxNoOfEnemies.Value,
+    //    MaxNoOfEnemies.Value
+    //    );
+    //}
 
     void PrepareEnemySequence() {
         Dictionary<EnemyType, int> req = EnemyWaveSettings.LevelRequirement[LevelManager.GetCurrentLevel()];
@@ -197,7 +192,7 @@ public class EnemyController : MonoBehaviour
                     ListManipulator
                         .AddMultipleTimes(
                             enemyTypes,
-                            EnemyType.MEDIUM_WALKER_2SHOTS,
+                            EnemyType.FAST_WALKER_2SHOTS,
                             r.Value
                         );
                     break;
@@ -310,132 +305,146 @@ public class EnemyController : MonoBehaviour
         GameObject newEnemy;
         switch (enemyType) {
             case EnemyType.SLOW_WALKER:
-                newEnemy = WalkerPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                    SlowGroundEnemy, 
+                    SlowGroundEnemy.transform.position,
+                    SlowGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(SlowAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.SLOW_WALKER, 1);
-                newEnemy.transform.position = InitialPosWalker;
                 break;
             case EnemyType.MEDIUM_WALKER:
-                newEnemy = MediumSpeedWalkerPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                    MediumGroundEnemy,
+                    MediumGroundEnemy.transform.position,
+                    MediumGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(MediumAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.MEDIUM_WALKER, 1);
-                newEnemy.transform.position = InitialPosWalker;
                 break;
             case EnemyType.FAST_WALKER:
-                newEnemy = HighSpeedWalkerPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                    FastGroundEnemy,
+                    FastGroundEnemy.transform.position,
+                    FastGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(FastAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.FAST_WALKER, 1);
-                newEnemy.transform.position = InitialPosWalker;
                 break;
             case EnemyType.SLOW_WALKER_2SHOTS:
-                newEnemy = WalkerPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                    SlowGroundEnemy,
+                    SlowGroundEnemy.transform.position,
+                    SlowGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(SlowAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.SLOW_WALKER_2SHOTS, 2);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.cyan;
-                newEnemy.transform.position = InitialPosWalker;
                 break;
             case EnemyType.MEDIUM_WALKER_2SHOTS:
-                newEnemy = WalkerPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                    MediumGroundEnemy,
+                    MediumGroundEnemy.transform.position,
+                    MediumGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(MediumAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.MEDIUM_WALKER_2SHOTS, 2);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.gray;
-                newEnemy.transform.position = InitialPosWalker;
                 break;
             case EnemyType.FAST_WALKER_2SHOTS:
-                newEnemy = WalkerPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                    FastGroundEnemy,
+                    FastGroundEnemy.transform.position,
+                    FastGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(FastAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.FAST_WALKER_2SHOTS, 2);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.black;
-                newEnemy.transform.position = InitialPosWalker;
                 break;
             case EnemyType.SLOW_WALKER_1SHOTS_UNPREDICTABLE:
-                newEnemy = WalkerPool.ObjectPool.Get();
+                Debug.Log("Expect unpredictable");
+                newEnemy = Instantiate(
+                    SlowGroundEnemy,
+                    SlowGroundEnemy.transform.position,
+                    SlowGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(SlowAirSpeed, false);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.SLOW_WALKER_1SHOTS_UNPREDICTABLE, 1);
                 newEnemy.GetComponent<EnemyDeath>().SetNeededShots(1);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.green;
-                newEnemy.transform.position = InitialPosWalker;
                 break;
             case EnemyType.MEDIUM_WALKER_1SHOTS_UNPREDICTABLE:
-                newEnemy = WalkerPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                   MediumGroundEnemy,
+                   MediumGroundEnemy.transform.position,
+                   MediumGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(MediumAirSpeed, false);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.MEDIUM_WALKER_1SHOTS_UNPREDICTABLE, 1);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.green;
-                newEnemy.transform.position = InitialPosWalker;
                 break;
             case EnemyType.FAST_WALKER_1SHOTS_UNPREDICTABLE:
-                newEnemy = WalkerPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                   FastGroundEnemy,
+                   FastGroundEnemy.transform.position,
+                   FastGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(FastAirSpeed, false);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.FAST_WALKER_1SHOTS_UNPREDICTABLE, 1);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.green;
-                newEnemy.transform.position = InitialPosWalker;
                 break;
             case EnemyType.SLOW_AIR:
-                newEnemy = AirEnemyPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                   SlowAirEnemy,
+                   SlowAirEnemy.transform.position,
+                   SlowAirEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
-                        .SetConfigs(SlowAirSpeed, false);
+                        .SetConfigs(SlowAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.SLOW_AIR, 1);
-                newEnemy.transform.position = InitialPosAir;
-                newEnemy.transform.rotation = InitAirRotation;
                 break;
             case EnemyType.MEDIUM_AIR:
-                newEnemy = AirEnemyPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                   MediumAirEnemy,
+                   MediumAirEnemy.transform.position,
+                   MediumAirEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
-                        .SetConfigs(MediumAirSpeed, false);
+                        .SetConfigs(MediumAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.MEDIUM_AIR, 1);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.green;
-                newEnemy.transform.position = InitialPosAir;
-                newEnemy.transform.rotation = InitAirRotation;
                 break;
             case EnemyType.FAST_AIR:
-                newEnemy = AirEnemyPool.ObjectPool.Get();
-                newEnemy.GetComponent<EnemyMovement>()
-                        .SetConfigs(FastAirSpeed, false);
-                newEnemy.GetComponent<EnemyDeath>()
-                        .SetConfigs(EnemyType.FAST_AIR, 1);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.green;
-                newEnemy.transform.position = InitialPosAir;
-                newEnemy.transform.rotation = InitAirRotation;
-                break;
-            case EnemyType.FAST_AIR_1SHOTS_UNPREDICTABLE:
-                newEnemy = AirEnemyPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                   FastAirEnemy,
+                   FastAirEnemy.transform.position,
+                   FastAirEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
                         .SetConfigs(FastAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.FAST_AIR, 1);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.green;
-                newEnemy.transform.position = InitialPosAir;
-                newEnemy.transform.rotation = InitAirRotation;
+                break;
+            case EnemyType.FAST_AIR_1SHOTS_UNPREDICTABLE:
+                newEnemy = Instantiate(
+                    FastAirEnemy,
+                    FastAirEnemy.transform.position,
+                    FastAirEnemy.transform.rotation);
+                newEnemy.GetComponent<EnemyMovement>()
+                        .SetConfigs(FastAirSpeed, false);
+                newEnemy.GetComponent<EnemyDeath>()
+                        .SetConfigs(EnemyType.FAST_AIR, 1);
                 break;
             default:
-                newEnemy = WalkerPool.ObjectPool.Get();
+                newEnemy = Instantiate(
+                    SlowGroundEnemy,
+                    SlowGroundEnemy.transform.position,
+                    SlowGroundEnemy.transform.rotation);
                 newEnemy.GetComponent<EnemyMovement>()
-                        .SetConfigs(SlowAirSpeed, false);
+                        .SetConfigs(SlowAirSpeed, true);
                 newEnemy.GetComponent<EnemyDeath>()
                         .SetConfigs(EnemyType.SLOW_WALKER, 1);
-                newEnemy.GetComponent<SpriteRenderer>().color = Color.red;
-                newEnemy.transform.position = InitialPosAir;
-                newEnemy.transform.rotation = InitAirRotation;
                 break;
         }
         

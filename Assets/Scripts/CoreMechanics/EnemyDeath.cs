@@ -34,7 +34,7 @@ public class EnemyDeath : MonoBehaviour
             {
                 LevelTotalDestroyed.Value++;
                 CastleBreachedEvent.InvokeEvent(Type.ToString());
-                EnemyPool.ObjectPool.Release(gameObject);
+                Destroy(gameObject);
             }
             else {
                 if (other.gameObject.GetComponent<CannonShooter>().life >= 0) {
@@ -45,7 +45,8 @@ public class EnemyDeath : MonoBehaviour
                         LevelTotalDestroyed.Value++;
                         EnemyKilledEvent.Raise();
                         EnemyDeathEvent.InvokeEvent(Type.ToString());
-                        EnemyPool.ObjectPool.Release(gameObject);
+                        //EnemyPool.ObjectPool.Release(gameObject);
+                        Destroy(gameObject);
                     }
                     else
                     {

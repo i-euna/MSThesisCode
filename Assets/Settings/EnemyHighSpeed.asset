@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4183e55a329ec11479ac35961918e524, type: 3}
   m_Name: EnemyHighSpeed
   m_EditorClassIdentifier: 
-  Value: 4
+  Value: 3

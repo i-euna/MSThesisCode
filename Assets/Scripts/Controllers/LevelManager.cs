@@ -73,6 +73,7 @@ public class LevelManager : MonoBehaviour
     }
 
     public void LoadNextLevel() {
+        Debug.Log("Loading next ");
         switch (CurrentLevel) {
             case Levels.Level2:
                 if (GameTotalKilled.Value >= 25 &&
@@ -108,4 +109,6 @@ public class LevelManager : MonoBehaviour
         GameTotalKilled.Value += LevelTotalKilled.Value;
         GameTotalAmmo.Value += LevelTotalAmmo.Value;
     }
+
+
 }
