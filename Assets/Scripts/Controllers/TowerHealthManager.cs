@@ -26,7 +26,7 @@ public class TowerHealthManager : MonoBehaviour
         Health.Value -= GetDamage(enemyType);
         UpdateHealth();
 
-        if (Health.Value <= 0)
+        //if (Health.Value <= 0)
         CheckGameOver.Raise();
     }
 

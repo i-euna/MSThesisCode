@@ -64,8 +64,9 @@ public class LevelManager : MonoBehaviour
 
     void HandleSuccess() {
         Debug.Log(CurrentLevel + " - Successful");
-        //Debug.Log("Loading Next Level " + NextLevel);
-        
+        Debug.Log("Test LevelTotalKilled " + LevelTotalKilled.Value);
+        Debug.Log("Test LevelTotalAmmo " + LevelTotalAmmo.Value);
+
         LevelSuccessPanel.SetActive(true);
 
         UpdateAmmoEnemyStat();
@@ -73,7 +74,6 @@ public class LevelManager : MonoBehaviour
     }
 
     public void LoadNextLevel() {
-        Debug.Log("Loading next ");
         switch (CurrentLevel) {
             case Levels.Level2:
                 if (GameTotalKilled.Value >= 25 &&
@@ -82,16 +82,18 @@ public class LevelManager : MonoBehaviour
                 else NextLevel = Levels.Level3E;
                 break;
             case Levels.Level3E:
-                if (LevelTotalKilled.Value >= 17 &&
-                    LevelTotalAmmo.Value <= 22)
+                if (LevelTotalKilled.Value >= 12 &&
+                    LevelTotalAmmo.Value <= 15)
                     NextLevel = Levels.Level4M;
                 else NextLevel = Levels.Level4E;
                 break;
             case Levels.Level3H:
-                if (LevelTotalKilled.Value >= 17 &&
-                    LevelTotalAmmo.Value <= 22)
-                    NextLevel = Levels.Level4M;
-                else NextLevel = Levels.Level4H;
+                Debug.Log("Test LevelTotalKilled " + LevelTotalKilled.Value);
+                Debug.Log("Test LevelTotalAmmo " + LevelTotalAmmo.Value);
+                if (LevelTotalKilled.Value >= 12 &&
+                    LevelTotalAmmo.Value <= 15)
+                    NextLevel = Levels.Level4H;
+                else NextLevel = Levels.Level4M;
                 break;
             default:
                 break;
